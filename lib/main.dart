@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http_tiga/create_page.dart';
 import 'package:http_tiga/person.dart';
 import 'package:http_tiga/repository.dart';
-import 'package:intl/intl.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomePage(),
+      routes: {
+        'home': (context) => HomePage(),
+        'create': (context) => CreatePage()
+      },
     );
   }
 }
@@ -47,26 +51,35 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Http Req'),
       ),
-      body: ListView.separated(
+      body: ListView.builder(
           itemBuilder: (context, index) {
+            Person person = listPerson[index];
             return ListTile(
-              title: Text(listPerson[index].name),
-              subtitle: Text(listPerson[index].message),
+              title: Text('${person.firstName} ${person.lastName}'),
+              subtitle: Text(
+                person.message,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
               leading: Container(
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: NetworkImage(listPerson[index].image),
+                        image: NetworkImage(
+                            'https://www.balitbangham.go.id/po-content/po-upload/news-default.jpg'),
                         fit: BoxFit.cover)),
               ),
             );
           },
-          separatorBuilder: (context, index) {
-            return Divider();
-          },
           itemCount: listPerson.length),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.popAndPushNamed(context, 'create');
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }

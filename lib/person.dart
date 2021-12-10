@@ -1,20 +1,21 @@
 class Person {
   final String id;
-  final String name;
-  final String image;
+  final String firstName;
+  final String lastName;
+
   final String message;
 
   Person(
       {required this.id,
-      required this.name,
-      required this.image,
+      required this.firstName,
+      required this.lastName,
       required this.message});
 
   factory Person.fromJson(Map<String, dynamic> json) {
     return Person(
       id: json['id'],
-      name: '${json['first_name']} ${json['last_name']}',
-      image: json['image'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
       message: json['message'],
     );
   }
